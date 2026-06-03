@@ -1,0 +1,95 @@
+<h2 mat-dialog-title>
+  {{ titulo }}
+</h2>
+
+<mat-dialog-content>
+
+  <form [formGroup]="productoForm">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre</mat-label>
+
+      <input
+        matInput
+        formControlName="nombre"
+      >
+      <mat-error
+        *ngIf="productoForm.get('nombre')?.invalid"
+      >
+        El nombre es requerido
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Precio</mat-label>
+
+      <input
+        matInput
+        type="number"
+        formControlName="precio"
+      >
+      <mat-error
+        *ngIf="productoForm.get('precio')?.invalid"
+      >
+        El precio es requerido
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Stock</mat-label>
+
+      <input
+        matInput
+        type="number"
+        formControlName="stock"
+      >
+      <mat-error
+        *ngIf="productoForm.get('stock')?.invalid"
+      >
+        El stock es requerido
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+
+      <mat-label>Categoría</mat-label>
+
+        <mat-select formControlName="categoria">
+
+          <mat-option
+            *ngFor="let categoria of categorias"
+            [value]="categoria"
+          >
+            {{ categoria }}
+          </mat-option>
+
+        </mat-select>
+      <mat-error
+        *ngIf="productoForm.get('categoria')?.invalid"
+      >
+        La categoría es requerida
+      </mat-error>
+    </mat-form-field>
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+  <button
+    mat-button
+    (click)="cerrar()"
+  >
+    Cancelar
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="guardar()"
+  >
+    {{ data ? 'Actualizar' : 'Guardar' }}
+  </button>
+
+</mat-dialog-actions>

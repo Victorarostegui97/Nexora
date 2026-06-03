@@ -1,0 +1,86 @@
+<div class="inventario-page">
+
+  <div class="header">
+
+    <div>
+      <h1>Inventario</h1>
+      <p>Control de movimientos de stock</p>
+    </div>
+
+    <div class="actions">
+
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="abrirMovimiento('Entrada')"
+      >
+        <mat-icon>add</mat-icon>
+        Entrada
+      </button>
+
+      <button
+        mat-raised-button
+        color="warn"
+        (click)="abrirMovimiento('Salida')"
+      >
+        <mat-icon>remove</mat-icon>
+        Salida
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="table-card">
+
+    <table mat-table [dataSource]="movimientos">
+
+      <ng-container matColumnDef="producto">
+        <th mat-header-cell *matHeaderCellDef>
+          Producto
+        </th>
+
+        <td mat-cell *matCellDef="let movimiento">
+          {{ movimiento.producto?.nombre }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="tipo">
+        <th mat-header-cell *matHeaderCellDef>
+          Tipo
+        </th>
+
+        <td mat-cell *matCellDef="let movimiento">
+          {{ movimiento.tipo }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cantidad">
+        <th mat-header-cell *matHeaderCellDef>
+          Cantidad
+        </th>
+
+        <td mat-cell *matCellDef="let movimiento">
+          {{ movimiento.cantidad }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef>
+          Fecha
+        </th>
+
+        <td mat-cell *matCellDef="let movimiento">
+          {{ movimiento.fecha }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+
+  </div>
+
+</div>

@@ -1,0 +1,86 @@
+<div class="dashboard">
+
+  <div class="page-header">
+    <h1>Dashboard</h1>
+    <p>Bienvenido a Nexora</p>
+  </div>
+
+  <div class="cards-container">
+
+    <div class="kpi-card">
+      <h3>Productos</h3>
+      <h2>{{ resumen.totalProductos }}</h2>
+    </div>
+
+    <div class="kpi-card">
+      <h3>Stock Total</h3>
+      <h2>{{ resumen.stockTotal }}</h2>
+    </div>
+
+    <div class="kpi-card">
+      <h3>Entradas</h3>
+      <h2>{{ resumen.entradas }}</h2>
+    </div>
+
+    <div class="kpi-card">
+      <h3>Salidas</h3>
+      <h2>{{ resumen.salidas }}</h2>
+    </div>
+
+  </div>
+
+  <div class="content-grid">
+
+    <div class="chart-card">
+
+      <h3>
+        Últimos Movimientos
+      </h3>
+
+      <ul>
+
+        <li
+          *ngFor="
+          let movimiento
+          of recentMovements
+          "
+        >
+
+          {{ movimiento.tipo }}
+          -
+
+          {{ movimiento.producto?.nombre }}
+
+          -
+
+          {{ movimiento.cantidad }}
+
+        </li>
+
+      </ul>
+
+    </div>
+
+    <div class="stock-card">
+
+      <h3>Stock Bajo</h3>
+
+        <ul>
+
+          <li
+            *ngFor="
+            let producto
+            of lowStockProducts">
+
+            {{ producto.nombre }}
+            ({{ producto.stock }})
+
+          </li>
+
+        </ul>
+
+    </div>
+
+  </div>
+
+</div>

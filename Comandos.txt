@@ -1,0 +1,8 @@
+Comando para correr Backend
+npm run start:dev
+
+Comando para correr Frontend
+ng serve
+
+Comando para borrar cache de .angular
+Remove-Item -Recurse -Force .angular

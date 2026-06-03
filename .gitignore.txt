@@ -1,0 +1,17 @@
+# Angular
+nexora-app/node_modules
+nexora-app/.angular
+nexora-app/dist
+
+# NestJS
+nexora-api/node_modules
+nexora-api/dist
+
+# Logs
+*.log
+
+# Env
+.env
+
+# VSCode
+.vscode
