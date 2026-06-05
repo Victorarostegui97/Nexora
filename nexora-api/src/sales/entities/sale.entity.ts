@@ -32,4 +32,7 @@ export class Sale {
   @Column()
   fecha!: Date;
 
+  @Column({ default: 'Activa' })
+  estado!: string;
+  
 }

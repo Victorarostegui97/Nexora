@@ -31,4 +31,13 @@ export class SalesService {
 
   }
 
+  cancelSale(id: number) {
+
+    return this.http.patch(
+      `${this.apiUrl}/${id}/cancel`,
+      {}
+    );
+
+  }
+
 }

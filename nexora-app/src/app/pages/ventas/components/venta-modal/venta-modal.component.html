@@ -25,6 +25,24 @@
 
     </mat-form-field>
 
+    <div
+      *ngIf="productoSeleccionado"
+    >
+
+      <p>
+        <strong>Precio:</strong>
+        C$ {{ productoSeleccionado.precio }}
+      </p>
+
+      <p>
+        <strong>Stock disponible:</strong>
+        {{ productoSeleccionado.stock }}
+      </p>
+
+      <hr>
+      
+    </div>
+
     <mat-form-field appearance="outline">
 
       <mat-label>Cantidad</mat-label>
@@ -36,6 +54,30 @@
       >
 
     </mat-form-field>
+
+    <div>
+
+      <h3>
+        Total:
+        C$ {{ total }}
+      </h3>
+
+    </div>
+
+    <div
+      *ngIf="
+        productoSeleccionado &&
+        ventaForm.value.cantidad >
+        productoSeleccionado.stock
+      ">
+
+      <p style="color:red">
+
+        Stock insuficiente
+
+      </p>
+
+    </div>
 
   </form>
 
@@ -53,8 +95,8 @@
   <button
     mat-raised-button
     color="primary"
-    (click)="guardar()"
-  >
+    [disabled]="!puedeGuardar"
+    (click)="guardar()">
     Guardar
   </button>
 

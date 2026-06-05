@@ -126,4 +126,67 @@ export class SalesService {
 
   }
 
+  async cancelSale(id: number) {
+
+    const venta =
+      await this.salesRepository.findOne({
+
+        where: { id },
+
+        relations: ['producto']
+
+      });
+
+    if (!venta) {
+
+      throw new Error(
+        'Venta no encontrada'
+      );
+
+    }
+
+    if (
+      venta.estado === 'Anulada'
+    ) {
+
+      throw new Error(
+        'La venta ya fue anulada'
+      );
+
+    }
+
+    venta.estado = 'Anulada';
+
+    venta.producto.stock +=
+      venta.cantidad;
+
+    await this.productRepository.save(
+      venta.producto
+    );
+
+    const movimiento =
+      this.inventoryRepository.create({
+
+        producto: venta.producto,
+
+        tipo: 'Entrada',
+
+        cantidad: venta.cantidad,
+
+        fecha: new Date()
+
+      });
+
+    await this.inventoryRepository.save(
+      movimiento
+    );
+
+    await this.salesRepository.save(
+      venta
+    );
+
+    return venta;
+
+  }
+
 }

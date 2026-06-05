@@ -22,6 +22,9 @@ import { MatInputModule } from '@angular/material/input';
 
 import { MatButtonModule } from '@angular/material/button';
 
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-venta-modal',
   standalone: true,
@@ -32,7 +35,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSnackBarModule
   ],
   templateUrl: './venta-modal.component.html',
   styleUrl: './venta-modal.component.scss'
@@ -40,16 +44,20 @@ import { MatButtonModule } from '@angular/material/button';
 export class VentaModalComponent {
 
   ventaForm: FormGroup;
+  productoSeleccionado: any = null;
+  puedeGuardar = false;
+  total = 0;
 
   constructor(
     private fb: FormBuilder,
 
-    private dialogRef:
-      MatDialogRef<VentaModalComponent>,
+    private snackBar: MatSnackBar,
+
+    private dialogRef: MatDialogRef<VentaModalComponent>,
 
     @Inject(MAT_DIALOG_DATA)
     public data: any
-  ) {
+  ){
 
     this.ventaForm = this.fb.group({
 
@@ -65,6 +73,62 @@ export class VentaModalComponent {
 
     });
 
+    this.ventaForm
+    .get('productId')
+    ?.valueChanges
+    .subscribe(id => {
+
+      this.productoSeleccionado =
+        this.data.productos.find(
+          (p: any) => p.id === id
+        );
+
+      this.calcularTotal();
+
+    });
+
+  this.ventaForm
+    .get('cantidad')
+    ?.valueChanges
+    .subscribe(() => {
+
+      this.calcularTotal();
+
+    });
+
+  }
+
+  calcularTotal() {
+
+    if (!this.productoSeleccionado) {
+
+      this.total = 0;
+      this.puedeGuardar = false;
+
+      return;
+
+    }
+
+    const cantidadControl =
+      this.ventaForm.get('cantidad');
+
+    const cantidad =
+      Number(
+        cantidadControl?.value
+      ) || 0;
+
+    const precio =
+      Number(
+        this.productoSeleccionado.precio
+      ) || 0;
+
+    this.total =
+      cantidad * precio;
+
+    this.puedeGuardar =
+      cantidad > 0 &&
+      cantidad <= this.productoSeleccionado.stock;
+
   }
 
   guardar() {
@@ -74,6 +138,24 @@ export class VentaModalComponent {
     ) {
 
       this.ventaForm.markAllAsTouched();
+
+      return;
+
+    }
+
+    if (
+      this.productoSeleccionado &&
+      this.ventaForm.value.cantidad >
+      this.productoSeleccionado.stock
+    ) {
+
+      this.snackBar.open(
+        'Stock insuficiente',
+        'Cerrar',
+        {
+          duration: 3000
+        }
+      );
 
       return;
 

@@ -54,6 +54,27 @@
 
     </ng-container>
 
+    <ng-container matColumnDef="estado">
+
+      <th mat-header-cell *matHeaderCellDef>
+        Estado
+      </th>
+
+      <td mat-cell *matCellDef="let venta">
+
+        <span
+          [style.color]="
+          venta.estado === 'Anulada' ? 'red' : 'green'"
+        >
+
+          {{ venta.estado }}
+
+        </span>
+
+      </td>
+
+    </ng-container>
+
     <ng-container matColumnDef="cantidad">
 
       <th
@@ -86,6 +107,29 @@
         *matCellDef="let venta"
       >
         C$ {{ venta.total }}
+      </td>
+
+    </ng-container>
+
+    <ng-container matColumnDef="acciones">
+
+      <th mat-header-cell *matHeaderCellDef>
+        Acciones
+      </th>
+
+      <td mat-cell *matCellDef="let venta">
+
+        <button
+          mat-button
+          color="warn"
+          (click)="anularVenta(venta.id)"
+          [disabled]="venta.estado === 'Anulada'"
+        >
+
+          Anular Venta
+
+        </button>
+
       </td>
 
     </ng-container>

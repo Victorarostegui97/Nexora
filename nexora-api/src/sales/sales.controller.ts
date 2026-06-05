@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
 
 import { SalesService } from './sales.service';
 
@@ -20,6 +20,16 @@ export class SalesController {
     return this.salesService.create(
       createSaleDto
     );
+
+  }
+
+  @Patch(':id/cancel')
+  cancelSale(
+    @Param('id') id: string
+  ) {
+
+    return this.salesService
+      .cancelSale(+id);
 
   }
 

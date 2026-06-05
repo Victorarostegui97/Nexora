@@ -11,6 +11,9 @@ import { ProductsService } from '../../core/services/products.service';
 
 import { MatDialog } from '@angular/material/dialog';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { VentaModalComponent } from './components/venta-modal/venta-modal.component';
 
 @Component({
@@ -20,7 +23,8 @@ import { VentaModalComponent } from './components/venta-modal/venta-modal.compon
     CommonModule,
     MatTableModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule
   ],
   templateUrl: './ventas.component.html',
   styleUrl: './ventas.component.scss'
@@ -28,10 +32,12 @@ import { VentaModalComponent } from './components/venta-modal/venta-modal.compon
 export class VentasComponent implements OnInit {
 
   displayedColumns = [
-    'fecha',
     'producto',
     'cantidad',
-    'total'
+    'total',
+    'fecha',
+    'estado',
+    'acciones'
   ];
 
   ventas: any[] = [];
@@ -42,7 +48,9 @@ export class VentasComponent implements OnInit {
 
     private productsService: ProductsService,
 
-    private dialog: MatDialog
+    private dialog: MatDialog,
+
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -98,8 +106,8 @@ export class VentasComponent implements OnInit {
         VentaModalComponent,
         {
 
-          width: '500px',
-
+          width: '700px',
+          maxWidth: '90vw',
           data: {
 
             productos:
@@ -126,17 +134,69 @@ export class VentasComponent implements OnInit {
 
               this.obtenerVentas();
 
+              this.snackBar.open(
+                'Venta registrada correctamente',
+                'Cerrar',
+                {
+                  duration: 3000
+                }
+              );
+
             },
 
             error: (error) => {
 
-              console.error(
-                error
+              console.error(error);
+
+              this.snackBar.open(
+                'Error al registrar la venta',
+                'Cerrar',
+                {
+                  duration: 4000
+                }
               );
 
             }
 
           });
+
+      });
+
+  }
+
+  anularVenta(id: number) {
+
+    this.salesService
+      .cancelSale(id)
+      .subscribe({
+
+        next: () => {
+
+          this.obtenerVentas();
+
+          this.snackBar.open(
+            'Venta anulada correctamente',
+            'Cerrar',
+            {
+              duration: 3000
+            }
+          );
+
+        },
+
+        error: (error) => {
+
+          console.error(error);
+
+          this.snackBar.open(
+            'Error al anular la venta',
+            'Cerrar',
+            {
+              duration: 3000
+            }
+          );
+
+        }
 
       });
 
