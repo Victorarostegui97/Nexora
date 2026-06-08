@@ -1,0 +1,102 @@
+<h2 mat-dialog-title>
+
+  {{
+    data?.cliente
+      ? 'Editar Cliente'
+      : 'Nuevo Cliente'
+  }}
+
+</h2>
+
+<mat-dialog-content>
+
+  <form
+    [formGroup]="clienteForm"
+  >
+
+    <mat-form-field
+      appearance="outline"
+    >
+
+      <mat-label>
+        Nombre
+      </mat-label>
+
+      <input
+        matInput
+        formControlName="nombre"
+      >
+
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="outline"
+    >
+
+      <mat-label>
+        Teléfono
+      </mat-label>
+
+      <input
+        matInput
+        formControlName="telefono"
+      >
+
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="outline"
+    >
+
+      <mat-label>
+        Correo
+      </mat-label>
+
+      <input
+        matInput
+        formControlName="correo"
+      >
+
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="outline"
+    >
+
+      <mat-label>
+        Dirección
+      </mat-label>
+
+      <input
+        matInput
+        formControlName="direccion"
+      >
+
+    </mat-form-field>
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+  <button
+    mat-button
+    mat-dialog-close
+  >
+
+    Cancelar
+
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="guardar()"
+  >
+
+    Guardar
+
+  </button>
+
+</mat-dialog-actions>
